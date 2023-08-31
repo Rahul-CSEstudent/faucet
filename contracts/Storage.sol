@@ -1,27 +1,15 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
-
-// Uncomment this line to use console.log
-import "hardhat/console.sol";
-
-contract Storage {
-    uint amount;
-
-    function set(uint _num) public {
-        amount = _num;
-        console.log("received %s", _num);
-    }
-
-    function get() public view returns (uint) {
-        return amount;
-    }
-
-
-    function produce() public {
-        amount++;
-    }
-
-    function comsume() public {
-        amount--;
-    }
+// SPDX-License-Identifier: MIT 
+pragma solidity ^0.8.0; 
+ 
+import "@openzeppelin/contracts/access/Ownable.sol"; 
+ 
+contract SendFundsContract is Ownable { 
+    constructor() {} 
+ 
+    receive() external payable {} 
+ 
+    function sendFunds(address payable recipient, uint256 amount) external onlyOwner { 
+        require(address(this).balance >= amount, "Insufficient balance"); 
+        recipient.transfer(amount); 
+    } 
 }
